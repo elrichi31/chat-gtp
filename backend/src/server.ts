@@ -19,7 +19,7 @@ const tokenizer = new GPT3Tokenizer({ type: "gpt3" });
 
 function getTokens(input: string): number {
   const tokens = tokenizer.encode(input);
-  return tokens.text.length;
+  return tokens.text.length; 
 }
 
 dotenv.config();
@@ -27,6 +27,7 @@ dotenv.config();
 const port = 8000;
 const app = express();
 app.use(bodyParser.json());
+app.options('*', cors()); // Incluir esto para manejar las solicitudes de preflight
 app.use(
   cors({
     origin: "*",
@@ -39,6 +40,16 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 app.post("/api/chat", async (req: Request, res: Response) => {
+
+  res.setHeader('Access-Control-Allow-Credentials', 'true')
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  // another common pattern
+  // res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT')
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+  )
   const requestMessages: ChatCompletionRequestMessage[] = req.body.messages;
 
   try {
