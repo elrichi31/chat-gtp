@@ -38,6 +38,7 @@ function Chatty() {
     setQuery("");
     console.log(process.env.NEXT_PUBLIC_REACT_APP_API_URL)
     const response = await fetch(`${process.env.NEXT_PUBLIC_REACT_APP_API_URL}`, {
+      mode: "no-cors",
       method: "POST",
       headers: {
         "Content-Type": "application/json",

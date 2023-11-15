@@ -39,6 +39,17 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
+app.get("/", (req: Request, res: Response) => {
+  const html = `
+    <h1>Chupapi</h1>
+    <p>Chupapi is an AI assistant that helps you program</p>
+    <p>It is powered by <a href="https://openai.com/">OpenAI</a></p>
+    <p>It is a demo for <a href="https://www.youtube.com/watch?v=9Yq67CjDqvw">this video</a></p>
+    <p>It is open source on <a href="
+  `;
+  res.send(html);
+});
+
 app.post("/api/chat", async (req: Request, res: Response) => {
 
   res.setHeader('Access-Control-Allow-Credentials', 'true')
